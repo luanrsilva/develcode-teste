@@ -1,0 +1,31 @@
+.container {
+  margin-top: 20px;
+
+  .content {
+    margin-top: 60px;
+
+    .card {
+      margin: 0 auto;
+      width: 80%;
+
+      .no-class {
+        margin: 0 auto;
+      }
+
+    }
+
+    .has-class {
+      margin-bottom: 20px;
+      border: solid 1px;
+      box-shadow: 10px 5px 5px gray;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      h5 {
+        font-weight: bold;
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+<div class="container">
+  <app-title title="Usuários" description="Lista de usuários cadastrados.">
+    <button class="btn btn-primary" (click)="open(content)">Criar</button>
+  </app-title>
+  <div class="content">
+    <div class="card" *ngIf="!hasUsers()">
+      <div class="card-body no-class">
+        <h4>Nenhum usuário cadastrado!</h4>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="hasUsers()">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Foto</th>
+            <th scope="col">Código</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Data de Nascimento</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let user of users">
+          <tr>
+            <td><img width="30" height="30" class="circle" [src]="user.photo" alt='profile_pic'></td>
+            <td>{{user.code}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.birthDate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Novo Usuário</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="userForm">
+        <div class="form-group">
+          <label for="userCode">Código</label>
+          <div class="input-group">
+            <input id="userCode" class="form-control" type="number" formControlName="code">
+          </div>
+
+          <br>
+
+          <label for="userName">Nome</label>
+          <div class="input-group">
+            <input id="userName" class="form-control" type="text" formControlName="name">
+          </div>
+
+          <br>
+
+          <label for="birthDate">Data de Nascimento</label>
+          <div class="input-group">
+            <input id="birthDate" class="form-control" type="date" formControlName="birthDate">
+          </div>
+
+          <br>
+
+          <label for="userPhoto">Foto</label>
+          <div class="input-group">
+            <input id="userPhoto" class="form-control" type="file" accept=".jpg, .png, .jpeg" formControlName="photo">
+          </div>
+
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]="!userForm.valid" (click)="modal.close('Save click')">Salvar</button>
+    </div>
+  </ng-template>
+
+
+</div>
