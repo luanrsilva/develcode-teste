@@ -10,9 +10,6 @@ const User = db.sequelize.define('users', {
     },
     birthDate: {
         type: db.Sequelize.STRING
-    },
-    photo: {
-        type: db.Sequelize.BLOB
     }
 });
 

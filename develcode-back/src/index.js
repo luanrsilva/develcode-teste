@@ -21,11 +21,11 @@ app.get('/getUsers', async (req, res) => {
     });
 });
 
-// app.delete('/deleteUser', async (req, res) => {
-//     await userService.deleteUser(req.body, (response) => {
-//         res.status(response.status).send(response);
-//     });
-// });
+app.put('/:userId', async (req, res) => {
+    await userService.updateUser(req.params.userId, req.body, (response) => {
+        res.status(response.status).send(response);
+    });
+});
 
 app.listen(3000, () => {
     console.log('RUNING ON PORT http://localhost:3000');

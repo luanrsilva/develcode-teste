@@ -14,15 +14,13 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Foto</th>
             <th scope="col">Código</th>
             <th scope="col">Nome</th>
             <th scope="col">Data de Nascimento</th>
           </tr>
         </thead>
         <tbody *ngFor="let user of users">
-          <tr>
-            <td><img width="30" height="30" class="circle" [src]="user.photo" alt='profile_pic'></td>
+          <tr (click)="openEdit(content, user)" style="cursor: pointer">
             <td>{{user.code}}</td>
             <td>{{user.name}}</td>
             <td>{{user.birthDate}}</td>
@@ -59,13 +57,6 @@
           <label for="birthDate">Data de Nascimento</label>
           <div class="input-group">
             <input id="birthDate" class="form-control" type="date" formControlName="birthDate">
-          </div>
-
-          <br>
-
-          <label for="userPhoto">Foto</label>
-          <div class="input-group">
-            <input id="userPhoto" class="form-control" type="file" accept=".jpg, .png, .jpeg" formControlName="photo">
           </div>
 
         </div>

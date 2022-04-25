@@ -15,10 +15,16 @@ export class UserService {
 
   createUser(user: UserModel) {
     console.log(user)
-    return this.http.post(this.baseUrl + '/addUsers', user);
+    return this.http.post(this.baseUrl + 'addUsers', user);
   }
 
   getUsers() {
-    return this.http.get(this.baseUrl + '/getUsers');
+    return this.http.get(this.baseUrl + 'getUsers');
+  }
+
+  updateUser(user: UserModel, id: string) {
+    const url = this.baseUrl + id
+    console.log(url);
+    return this.http.put(url, user);
   }
 }

@@ -35,8 +35,7 @@ export class AppComponent implements OnInit {
     this.userForm = this.fb.group({
       code: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      birthDate: ['', [Validators.required]],
-      photo: ['', [Validators.required]]
+      birthDate: ['', [Validators.required]]
     })
   }
 
@@ -82,5 +81,35 @@ export class AppComponent implements OnInit {
     const user = this.userForm.getRawValue();
 
     return user;
+  }
+
+  openEdit(content: any, user: UserModel) {
+    console.log(user)
+    this.fetchUser(user);
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      if (result) {
+        this.updateUser(user.id);
+      }
+    }, (reason) => {
+      console.log(reason);
+    });
+  }
+
+  fetchUser(user: UserModel) {
+    this.userForm.get('code')?.setValue(user.code);
+    this.userForm.get('name')?.setValue(user.name);
+    this.userForm.get('birthDate')?.setValue(user.birthDate);
+  }
+
+  private updateUser(id: string) {
+    const user = this.buildUser();
+
+    this.userService.updateUser(user, id).subscribe((res) => {
+      const response = JSON.parse(JSON.stringify(res));
+      this.toastrService.success(response.message);
+      this.getUsers();
+    }, error => {
+      this.toastrService.error(error.message);
+    });
   }
 }
