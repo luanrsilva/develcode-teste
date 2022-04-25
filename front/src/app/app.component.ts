@@ -6,8 +6,6 @@ import {UserModel} from "./models/user.model";
 import {UserService} from "./services/user.service";
 import {ToastrService} from "ngx-toastr";
 
-const reader = new FileReader();
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,6 +16,8 @@ export class AppComponent implements OnInit {
 
   public userForm!: FormGroup;
   users: UserModel[] = [];
+  modalTitle = "Novo Usuário";
+  userToRemove!: UserModel;
 
   constructor(private modalService: NgbModal,
               private fb: FormBuilder,
@@ -56,19 +56,20 @@ export class AppComponent implements OnInit {
     this.userService.createUser(user).subscribe((res) => {
       const response = JSON.parse(JSON.stringify(res));
       this.toastrService.success(response.message);
+      this.buildForm();
       this.getUsers();
-    }, error => {
-      this.toastrService.error(error.message);
+    }, err => {
+      console.log(err)
+      this.toastrService.error(err.error.message);
     });
   }
 
   private getUsers() {
     this.userService.getUsers().subscribe((res) => {
       const response = JSON.parse(JSON.stringify(res));
-      console.log(response)
       this.users = response.data;
-    }, error => {
-      this.toastrService.error(error.message);
+    }, err => {
+      this.toastrService.error(err.error.message);
     });
   }
 
@@ -84,18 +85,20 @@ export class AppComponent implements OnInit {
   }
 
   openEdit(content: any, user: UserModel) {
-    console.log(user)
     this.fetchUser(user);
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       if (result) {
         this.updateUser(user.id);
       }
     }, (reason) => {
+      this.modalTitle = "Novo Usuário";
+      this.buildForm();
       console.log(reason);
     });
   }
 
   fetchUser(user: UserModel) {
+    this.modalTitle = "Editar Usuário";
     this.userForm.get('code')?.setValue(user.code);
     this.userForm.get('name')?.setValue(user.name);
     this.userForm.get('birthDate')?.setValue(user.birthDate);
@@ -108,8 +111,30 @@ export class AppComponent implements OnInit {
       const response = JSON.parse(JSON.stringify(res));
       this.toastrService.success(response.message);
       this.getUsers();
-    }, error => {
-      this.toastrService.error(error.message);
+    }, err => {
+      this.toastrService.error(err.error.message);
     });
   }
+
+  delete(id: string) {
+    this.userService.deleteUser(id).subscribe((res) => {
+      const response = JSON.parse(JSON.stringify(res));
+      this.toastrService.success(response.message);
+      this.getUsers();
+    }, err => {
+      this.toastrService.error(err.error.message);
+    });
+  }
+
+  openDelete(content: any, user: UserModel) {
+    this.userToRemove = user;
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      if (result) {
+        this.delete(user.id);
+      }
+    }, (reason) => {
+      console.log(reason);
+    });
+  }
+
 }

@@ -14,17 +14,13 @@
 
     }
 
-    .has-class {
-      margin-bottom: 20px;
-      border: solid 1px;
-      box-shadow: 10px 5px 5px gray;
+    .row {
 
-      &:hover {
-        cursor: pointer;
-      }
-
-      h5 {
-        font-weight: bold;
+      .icons {
+        i {
+          margin-left: 10px;
+          cursor: pointer;
+        }
       }
     }
   }

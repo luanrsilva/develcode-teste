@@ -14,7 +14,6 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   createUser(user: UserModel) {
-    console.log(user)
     return this.http.post(this.baseUrl + 'addUsers', user);
   }
 
@@ -23,8 +22,10 @@ export class UserService {
   }
 
   updateUser(user: UserModel, id: string) {
-    const url = this.baseUrl + id
-    console.log(url);
-    return this.http.put(url, user);
+    return this.http.put(this.baseUrl + id, user);
+  }
+
+  deleteUser(id: string) {
+    return this.http.delete(this.baseUrl + id);
   }
 }

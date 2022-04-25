@@ -17,13 +17,18 @@
             <th scope="col">Código</th>
             <th scope="col">Nome</th>
             <th scope="col">Data de Nascimento</th>
+            <th scope="col">Opções</th>
           </tr>
         </thead>
         <tbody *ngFor="let user of users">
-          <tr (click)="openEdit(content, user)" style="cursor: pointer">
+          <tr>
             <td>{{user.code}}</td>
             <td>{{user.name}}</td>
             <td>{{user.birthDate}}</td>
+            <td class="icons">
+              <i class="bi bi-pencil-fill" (click)="openEdit(content, user)"></i>
+              <i class="bi bi-trash3-fill" (click)="openDelete(delete, user)"></i>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -32,7 +37,7 @@
 
   <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Novo Usuário</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{modalTitle}}</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -63,9 +68,22 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" [disabled]="!userForm.valid" (click)="modal.close('Save click')">Salvar</button>
+      <button type="button" class="btn btn-primary" [disabled]="!userForm.valid" (click)="modal.close('Save click')">Salvar</button>
     </div>
   </ng-template>
 
+  <ng-template #delete let-modalDelete>
+    <div class="modal-header">
+      <h4 class="modal-title">Excluir Usuário</h4>
+    </div>
 
+    <div class="modal-body">
+      <h5>{{userToRemove.name}} será excluído(a). Prosseguir? </h5>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" aria-label="Close" (click)="modalDelete.dismiss('Cross click')">Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="modalDelete.close('Save click')">Excluir</button>
+    </div>
+  </ng-template>
 </div>

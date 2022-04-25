@@ -4,7 +4,6 @@ let httpStatusCodes = require('http-status-codes');
 const userService = (function () {
 
     const _createUser = async (req, callback) => {
-        // console.log(req)
         await User.create({
             code: req.code,
             name: req.name,
@@ -39,7 +38,6 @@ const userService = (function () {
     }
 
     const _updateUser = async (userId, user, callback) => {
-        // Change everyone without a last name to "Doe"
         await User.update(user, {
             where: {
                 id: userId
@@ -57,10 +55,29 @@ const userService = (function () {
         })
     }
 
+    const _deleteUser = async (userId, callback) => {
+        await User.destroy({
+            where: {
+                id: userId
+            }
+        }).then(() => {
+            return callback({
+                status: httpStatusCodes.OK,
+                message: 'Usuário excluído com sucesso'
+            })
+        }).catch(err => {
+            return callback({
+                status: httpStatusCodes.BAD_REQUEST,
+                message: 'Erro ao excluir usuário: ' + err
+            })
+        })
+    }
+
     return {
         createUser: _createUser,
         getUsers: _getUsers,
-        updateUser: _updateUser
+        updateUser: _updateUser,
+        deleteUser: _deleteUser
     }
 })();
 

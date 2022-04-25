@@ -27,6 +27,12 @@ app.put('/:userId', async (req, res) => {
     });
 });
 
+app.delete('/:userId', async (req, res) => {
+    await userService.deleteUser(req.params.userId, (response) => {
+        res.status(response.status).send(response);
+    });
+});
+
 app.listen(3000, () => {
     console.log('RUNING ON PORT http://localhost:3000');
 })
