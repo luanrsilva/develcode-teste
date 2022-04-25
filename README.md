@@ -10,4 +10,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 # Back
 
+This back-end was implemented using `NodeJS`and `Sequelize`
+
+## Run server
+
 Run `npm run dev`. The API will run on port `http://localhost:3000`
